@@ -2,7 +2,7 @@
 
 ## Che cos’è
 
-ChatGPT Code Agent è un’estensione per Visual Studio Code (MVP 0.5.6) che integra una chat laterale con l’OpenAI Responses API. L’agente può esplorare il workspace, proporre modifiche, eseguire comandi approvati, leggere la diagnostica e mantenere note locali sul progetto.
+ChatGPT Code Agent è un’estensione per Visual Studio Code (MVP 0.5.9) che integra una chat laterale con l’OpenAI Responses API. L’agente può esplorare il workspace, proporre modifiche, eseguire comandi approvati, leggere la diagnostica e mantenere note locali sul progetto.
 
 È scritto in TypeScript e supporta un solo workspace locale. Non è una sandbox: i comandi approvati vengono eseguiti con i permessi del sistema operativo dell’utente.
 

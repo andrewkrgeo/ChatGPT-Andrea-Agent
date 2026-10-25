@@ -44,6 +44,14 @@ export class ProjectMemory {
     await this.safeFile(base,'sessions.jsonl');await this.safeFile(base,'summaries.jsonl');
     if(!this.initialized){this.initialized=true;await this.log('session_start',{source:'vscode'});}
   }
+  async checkpointFile():Promise<string|undefined>{
+    await this.init();
+    if(!this.base)return undefined;
+    return this.safeFile(this.base,'agent-state.json');
+  }
+  async completeTask(summary:string):Promise<void>{
+    await this.finishTask(summary);
+  }
   async context(query=''):Promise<string>{
     await this.init();if(!this.base)return 'Project memory unavailable (open one trusted local workspace).';
     const parts:string[]=[];

@@ -1,4 +1,4 @@
-# ChatGPT Code Agent for VS Code (MVP v0.5.6)
+# ChatGPT Code Agent for VS Code (MVP v0.5.9)
 
 A TypeScript extension that brings an OpenAI Responses API coding agent into a VS Code sidebar. The agent can inspect workspace files, propose edits, run approved shell commands, report editor diagnostics, and maintain optional project memory.
 
@@ -46,3 +46,6 @@ Approved shell commands run with your operating-system user permissions and are 
 ```bash
 npm run package
 ```
+
+### Memory tool access (v0.5.7.2)
+The coding agent can list `.andrea` and read its `SEED.md`, `MEMORY.md`, `TASK.md`, `summaries.jsonl`, and `sessions.jsonl` via file tools, subject to output and size limits. Generic `write_file` access remains denied for all `.andrea` paths: updates are managed by the dedicated memory service. The history may include project information; review what you store.
