@@ -49,3 +49,11 @@ npm run package
 
 ### Memory tool access (v0.5.7.2)
 The coding agent can list `.andrea` and read its `SEED.md`, `MEMORY.md`, `TASK.md`, `summaries.jsonl`, and `sessions.jsonl` via file tools, subject to output and size limits. Generic `write_file` access remains denied for all `.andrea` paths: updates are managed by the dedicated memory service. The history may include project information; review what you store.
+
+## Account model catalog (0.6.12)
+
+Click **Account models** in the chat to explicitly retrieve model IDs using the API key already stored in VS Code SecretStorage. There is no automatic retrieval. Choose an ID from the model selector; only the selected ID is persisted in VS Code configuration, not the catalog or credentials.
+
+Built-in presets are labeled separately from **custom, unverified** account IDs. Custom selection requires confirmation: listing an ID does not establish Responses API, tool or reasoning-setting compatibility, or pricing. Custom IDs can also be entered directly in `chatgptAgent.model`; compatibility remains the user’s responsibility.
+
+Missing credentials, failures and empty results never change the active model. A custom selection absent from the latest successful catalog remains visible and selected, labeled as missing from that catalog. Built-ins remain selectable; there is no silent fallback. Changing the stored API key clears the in-memory catalog without changing the active model.

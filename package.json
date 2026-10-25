@@ -2,7 +2,7 @@
   "name": "chatgpt-code-agent",
   "displayName": "ChatGPT Code Agent",
   "description": "Workspace-scoped coding agent powered by OpenAI Responses API",
-  "version": "0.6.6",
+  "version": "0.6.12",
   "publisher": "local-dev",
   "private": true,
   "license": "MIT",
@@ -58,17 +58,7 @@
         "chatgptAgent.model": {
           "type": "string",
           "default": "gpt-6.1-sol",
-          "description": "OpenAI model used by the coding agent. Your API account must have access.",
-          "enum": [
-            "gpt-6-luna",
-            "gpt-6.1-sol",
-            "gpt-6-astra"
-          ],
-          "enumDescriptions": [
-            "Efficient and economical",
-            "Balanced for coding and cost",
-            "Strongest for challenging tasks"
-          ]
+          "description": "OpenAI model ID. Built-in presets or custom account IDs; listing does not verify Responses API/tool compatibility or pricing. No automatic fallback."
         },
         "chatgptAgent.maxSteps": {
           "type": "integer",
@@ -91,7 +81,13 @@
         },
         "chatgptAgent.reasoningEffort": {
           "type": "string",
-          "enum": ["low", "medium", "high", "xhigh", "max"],
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
           "default": "medium",
           "description": "Reasoning effort for Responses API (more effort can take longer and cost more)."
         },
@@ -118,5 +114,9 @@
     "@types/vscode": "^1.96.0",
     "@vscode/vsce": "^3.0.0",
     "typescript": "^5.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrewkrgeo/ChatGPT-Andrea-Agent.git"
   }
 }

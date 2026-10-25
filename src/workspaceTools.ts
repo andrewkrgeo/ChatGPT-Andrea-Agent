@@ -87,7 +87,7 @@ async function checkedPath(rel:string, mode:'read'|'write'|'list'='write'):Promi
 }
 function limit(s:string){return s.slice(0,vscode.workspace.getConfiguration('chatgptAgent').get<number>('maxOutputChars',12000));}
 async function approvedWrite(rel:string,content:string,signal:AbortSignal):Promise<string>{
-  if(content.length>1_000_000)throw Error('File too large (>1 MB).');
+  if(content.length>2_000_000)throw Error('File too large (>2 MB).');
   const target=await checkedPath(rel);const old=await fs.readFile(target,'utf8').catch((e:NodeJS.ErrnoException)=>{if(e.code==='ENOENT')return '';throw e;});
   const approved=await requestApproval('write_file',`${old?'Modify':'Create'} ${rel}`,{path:rel,original:old,proposed:content},signal);
   if(signal.aborted)throw Error('Cancelled before file change.');
@@ -106,7 +106,7 @@ export async function runTool(name:string,args:Record<string,unknown>,signal:Abo
   switch(name){
     case 'list_files':{
       const rel=String(args.directory??'.');const dir=await checkedPath(rel,'list');const entries=await fs.readdir(dir,{withFileTypes:true});return limit(entries.filter(e=>!e.isSymbolicLink() && (rel==='.andrea'?e.isFile() && readableMemoryFiles.has(e.name):!forbidden.has(e.name)&&!e.name.startsWith('.env'))).map(e=>`${e.isDirectory()?'dir ':'file'} ${path.posix.join(rel,e.name)}`).join('\n'));}
-    case 'read_file':{const target=await checkedPath(String(args.path),'read');const stat=await fs.stat(target);if(stat.size>200_000)throw Error('File too large (>200 KB)');const buf=await fs.readFile(target);if(buf.includes(0))throw Error('Binary file not supported');return limit(buf.toString('utf8'));}
+    case 'read_file':{const target=await checkedPath(String(args.path),'read');const stat=await fs.stat(target);if(stat.size>2_000_000)throw Error('File too large (>2000 KB)');const buf=await fs.readFile(target);if(buf.includes(0))throw Error('Binary file not supported');return limit(buf.toString('utf8'));}
     case 'write_file':return await approvedWrite(String(args.path),String(args.content),signal);
     case 'run_command':{
       if(signal.aborted)throw Error('Cancelled');const command=String(args.command);if(command.length>4000)throw Error('Command too long');
