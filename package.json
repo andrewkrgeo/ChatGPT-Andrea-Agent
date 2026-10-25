@@ -2,7 +2,7 @@
   "name": "chatgpt-code-agent",
   "displayName": "ChatGPT Code Agent",
   "description": "Workspace-scoped coding agent powered by OpenAI Responses API",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "publisher": "local-dev",
   "private": true,
   "license": "MIT",
@@ -38,7 +38,7 @@
       "activitybar": [
         {
           "id": "chatgptAgent",
-          "title": "ChatGPT Agent",
+          "title": "ChatGPT Code Agent",
           "icon": "media/robot.svg"
         }
       ]
