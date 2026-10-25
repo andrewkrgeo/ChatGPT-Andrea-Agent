@@ -27,13 +27,39 @@ test('token subtotals are bounded and not double-counted', () => {
   });
 });
 
+test('officially listed models have verified standard token rates', () => {
+  assert.deepEqual(Object.keys(RATES).sort(), ['gpt-6-astra', 'gpt-6-luna', 'gpt-6.1-sol']);
+  assert.equal(RATES['gpt-6-luna'].input, 0.10);
+  assert.equal(RATES['gpt-6-luna'].cached, 0.01);
+  assert.equal(RATES['gpt-6-luna'].output, 0.50);
+  assert.equal(RATES['gpt-6.1-sol'].input, 2.00);
+  assert.equal(RATES['gpt-6.1-sol'].cached, 0.10);
+  assert.equal(RATES['gpt-6.1-sol'].output, 10.00);
+  assert.equal(RATES['gpt-6-astra'].input, 10.00);
+  assert.equal(RATES['gpt-6-astra'].cached, 1.00);
+  assert.equal(RATES['gpt-6-astra'].output, 50.00);
+  for (const rate of Object.values(RATES)) {
+    assert.equal(rate.asOf, '2026-10-25');
+    assert.equal(rate.source, 'https://developers.openai.com/api/docs/pricing');
+  }
+});
+
 test('unknown model costs remain unpriced, never reported as free', () => {
-  assert.deepEqual(RATES, {});
   const result = accumulate(emptyUsage(), 'unverified-model', {
     input_tokens: 10, output_tokens: 5
   });
   assert.equal(result.usd, 0);
   assert.equal(result.unpriced, 1);
+});
+
+test('pricing applies cached-input rate and excludes it from regular input', () => {
+  const result = accumulate(emptyUsage(), 'gpt-6.1-sol', {
+    input_tokens: 1_000_000,
+    input_tokens_details: { cached_tokens: 250_000 },
+    output_tokens: 100_000
+  });
+  assert.equal(result.usd, 2.525);
+  assert.equal(result.unpriced, 0);
 });
 
 test('negative token counts are clamped to zero', () => {

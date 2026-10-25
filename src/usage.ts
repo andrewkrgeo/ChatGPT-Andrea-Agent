@@ -1,7 +1,8 @@
 /**
- * Pricing is intentionally unknown until the API model ID and current official
- * price have been verified. Never turn display labels or guessed rates into a
- * monetary estimate. Reference: https://developers.openai.com/api/docs/pricing
+ * OpenAI API standard token pricing, USD per 1M tokens, checked 2026-10-25.
+ * Official source: https://developers.openai.com/api/docs/pricing
+ * Cached input uses the listed cached-input rate. Estimates exclude non-token
+ * charges (for example tool calls) and may differ from the final invoice.
  */
 export type ModelPricing = {
   input: number;
@@ -11,8 +12,15 @@ export type ModelPricing = {
   source: string;
 };
 
-/** No configured entries: the UI must display costs as unknown, not $0. */
-export const RATES: Readonly<Record<string, ModelPricing>> = Object.freeze({});
+const PRICING_SOURCE = 'https://developers.openai.com/api/docs/pricing';
+const PRICING_AS_OF = '2026-10-25';
+
+/** Rates are USD per 1M tokens for the standard processing tier. */
+export const RATES: Readonly<Record<string, ModelPricing>> = Object.freeze({
+  'gpt-6-luna': { input: 0.10, cached: 0.01, output: 0.50, asOf: PRICING_AS_OF, source: PRICING_SOURCE },
+  'gpt-6.1-sol': { input: 2.00, cached: 0.10, output: 10.00, asOf: PRICING_AS_OF, source: PRICING_SOURCE },
+  'gpt-6-astra': { input: 10.00, cached: 1.00, output: 50.00, asOf: PRICING_AS_OF, source: PRICING_SOURCE }
+});
 export type UsageTotals = {
   input: number; cached: number; output: number; reasoning: number;
   requests: number; usd: number; unpriced: number;

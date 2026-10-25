@@ -2,7 +2,7 @@
   "name": "chatgpt-code-agent",
   "displayName": "ChatGPT Code Agent",
   "description": "Workspace-scoped coding agent powered by OpenAI Responses API",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "publisher": "local-dev",
   "private": true,
   "license": "MIT",
